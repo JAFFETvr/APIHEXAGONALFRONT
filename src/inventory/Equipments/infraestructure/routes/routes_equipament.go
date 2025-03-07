@@ -33,7 +33,6 @@ func SetupRoutesEquipament(r *gin.Engine) {
 	updateEquipment := equipamentControllers.NewUpdateEquipmentController(equipmentUseCases.NewUpdateEquipment(dbInstance))
 	deleteEquipment := equipamentControllers.NewDeleteEquipment(equipmentUseCases.NewDeleteEquipment(dbInstance))
 
-	// Definir las rutas
 	r.GET("/equipments", listEquipamentController.Execute)
 	r.POST("/equipments", createEquipamentController.Execute)
 	r.GET("/equipments/:id", getEquipmentById.Execute)
