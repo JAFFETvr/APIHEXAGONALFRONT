@@ -8,12 +8,11 @@ import (
 )
 
 type CreateEquipmentController struct {
-	useCase             equipmentusecases.CreateEquipment
-	notificationService equipmentusecases.MensajeUseCase // Servicio para enviar mensajes
+	useCase equipmentusecases.CreateEquipment
 }
 
-func NewCreateEquipmentController(useCase *equipmentusecases.CreateEquipment, notificationService *equipmentusecases.MensajeUseCase) *CreateEquipmentController {
-	return &CreateEquipmentController{useCase: *useCase, notificationService: *notificationService}
+func NewCreateEquipmentController(useCase *equipmentusecases.CreateEquipment) *CreateEquipmentController {
+	return &CreateEquipmentController{useCase: *useCase}
 }
 
 func (controller *CreateEquipmentController) Execute(c *gin.Context) {
@@ -28,19 +27,11 @@ func (controller *CreateEquipmentController) Execute(c *gin.Context) {
 		return
 	}
 
-	// Ejecuta la creación del equipo
 	err := controller.useCase.Execute(requestBody.Name, requestBody.Category, requestBody.Condition)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al crear el equipo"})
 		return
 	}
 
-	// Enviar el mensaje a RabbitMQ
-	err = controller.notificationService.SendMessage("PRODUCT", "EQUIPO AGREGADO EXITOSAMENTE")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al enviar el mensaje"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"message": "Equipo agregado exitosamente y mensaje enviado"})
+	c.JSON(http.StatusOK, gin.H{"message": "Equipo agregado exitosamente"})
 }

@@ -18,7 +18,6 @@ func NewMySQLEquipament() *MySQLEquipament {
 	return &MySQLEquipament{conn: conn}
 }
 
-// ✅ Ahora devuelve un error, como lo espera `IEquipamentRepository`
 func (mysql *MySQLEquipament) Save(cname string, category string, ccondition string) error {
 	query := "INSERT INTO equipments (cname, category, ccondition) VALUES (?, ?, ?)"
 	result, err := mysql.conn.ExecutePreparedQuery(query, cname, category, ccondition)

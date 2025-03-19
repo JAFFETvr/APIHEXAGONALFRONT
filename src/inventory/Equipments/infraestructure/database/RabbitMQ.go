@@ -38,7 +38,6 @@ func (r *RabbitMQ) checkChannel() error {
 }
 
 func NewRabbitMQ() (*RabbitMQ, error) {
-	// Cargar las variables de entorno
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error al cargar el archivo .env", err)

@@ -9,4 +9,4 @@ type IEquipamentRepository interface {
     Delete(id int) error
 
 }
-
+    

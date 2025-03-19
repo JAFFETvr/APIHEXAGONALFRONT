@@ -10,6 +10,6 @@ func NewMensajeUseCase(repo repository.IMessageRepository) *MensajeUseCase {
 	return &MensajeUseCase{repo: repo}
 }
 
-func (m *MensajeUseCase) SendMessage(queue string, message string) error {
-	return m.repo.SendMessage(queue, message)
+func (m *MensajeUseCase) SendEquipmentAddedMessage() error {
+	return m.repo.SendMessage("PRODUCT", "EQUIPO AGREGADO EXITOSAMENTE")
 }

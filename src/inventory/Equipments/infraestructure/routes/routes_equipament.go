@@ -4,29 +4,18 @@ import (
 	"github.com/gin-gonic/gin"
 	equipamentControllers "gym-system/src/inventory/Equipments/infraestructure/controllers"
 	equipmentUseCases "gym-system/src/inventory/Equipments/application/useCases"
-	"gym-system/src/inventory/Equipments/infraestructure/database" // Asegúrate de que se use correctamente
-	"log"      // Para repositorios
+	"gym-system/src/inventory/Equipments/infraestructure/database"
+	
 )
 
 func SetupRoutesEquipament(r *gin.Engine) {
-	// Crear instancia de MySQLEquipament
-	dbInstance := equipment.NewMySQLEquipament() // Aquí debes asegurarte de que tu base de datos implemente IEquipamentRepository
+	dbInstance := equipment.NewMySQLEquipament() 
 
-	// Crear la conexión a RabbitMQ
-	rabbitMQ, err := equipment.NewRabbitMQ()
-	if err != nil {
-		log.Fatal("Error al conectar a RabbitMQ:", err)
-	}
-
-	// Crear el repositorio de mensajes y el servicio de notificación
-	messageRepo := rabbitMQ // Usamos RabbitMQ como repositorio de mensajes
-	notificationService := equipmentUseCases.NewMensajeUseCase(messageRepo)
 
 	// Crear los controladores
 	listEquipamentController := equipamentControllers.NewListEquipmentController(equipmentUseCases.NewListEquipment(dbInstance))
 	createEquipamentController := equipamentControllers.NewCreateEquipmentController(
 		equipmentUseCases.NewCreateEquipment(dbInstance),
-		notificationService, // Pasa el servicio de notificación correctamente
 	)
 	getEquipmentById := equipamentControllers.NewEquipmentByIdController(equipmentUseCases.NewEquipmentById(dbInstance))
 	getEquipmentCondition := equipamentControllers.NewEquipmentCondition(equipmentUseCases.NewEquipmentByCondition(dbInstance))
