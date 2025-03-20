@@ -10,6 +10,6 @@ func NewServerNotification(rabbitMQ repository.IMessageRepository) *ServerNotifi
     return &ServerNotification{rabbitMQ: rabbitMQ}
 }
 
-func (s *ServerNotification) NotifyEquipmentAdded() error {
-    return s.rabbitMQ.SendMessage("PRODUCT", "EQUIPO AGREGADO EXITOSAMENTE")
+func (s *ServerNotification) SendMessage(topic string, message string) error {
+    return s.rabbitMQ.SendMessage(topic, message)
 }
